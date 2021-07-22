@@ -210,6 +210,7 @@ const userController = {
         userAccount: d.Tweet.User.account,
         userAvatar: d.Tweet.User.avatar,
         description: d.Tweet.description,
+        createdAt: d.Tweet.createdAt,
         likeCount: d.Tweet.Likes.length,
         replyCount: d.Tweet.Replies.length,
         isLiked: likes.length ? likes.includes(d.TweetId) : false
