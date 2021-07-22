@@ -149,14 +149,28 @@ const userController = {
 
   getAllReplies: async (req, res, next) => {
     try {
-      const replies = await User.findByPk(req.params.userId, {
-        include: Reply,
-        attributes: [],
-        order: [[Reply, 'createdAt', 'DESC']]
+      const replies = await Reply.findAll({
+        where: { UserId: req.params.userId },
+        attributes: { exclude: ['updatedAt'] },
+        include: {
+          model: Tweet,
+          attributes: [],
+          include: { model: User, attributes: ['account'] }
+        },
+        raw: true,
+        nest: true
       })
-      if (!replies) throw new Error('這名使用者不存在或已被刪除')
 
-      return res.json(replies.toJSON().Replies)
+      const data = replies.map(d => ({
+        id: d.id,
+        UserId: d.UserId,
+        TweetId: d.TweetId,
+        comment: d.comment,
+        createdAt: d.createdAt,
+        account: d.Tweet.User.account
+      }))
+
+      return res.json(data)
     } catch (error) {
       next(error)
     }
@@ -196,6 +210,7 @@ const userController = {
         userAccount: d.Tweet.User.account,
         userAvatar: d.Tweet.User.avatar,
         description: d.Tweet.description,
+        createdAt: d.Tweet.createdAt,
         likeCount: d.Tweet.Likes.length,
         replyCount: d.Tweet.Replies.length,
         isLiked: likes.length ? likes.includes(d.TweetId) : false
