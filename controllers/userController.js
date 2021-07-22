@@ -87,6 +87,7 @@ const userController = {
           'id',
           'name',
           'account',
+          'email',
           'introduction',
           'avatar',
           'cover',
