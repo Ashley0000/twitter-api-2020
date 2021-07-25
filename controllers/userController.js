@@ -158,6 +158,7 @@ const userController = {
           attributes: [],
           include: { model: User, attributes: ['account'] }
         },
+        order: [['createdAt', 'DESC']],
         raw: true,
         nest: true
       })
