@@ -206,7 +206,7 @@ const userController = {
       const likes = getData(helpers.getUser(req).LikedTweets)
 
       const data = like.toJSON().Likes.map(d => ({
-        userId: d.UserId,
+        userId: d.Tweet.UserId,
         TweetId: d.TweetId,
         userName: d.Tweet.User.name,
         userAccount: d.Tweet.User.account,
