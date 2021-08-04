@@ -2,7 +2,7 @@ const userController = require('../controllers/userController')
 const adminController = require('../controllers/adminController')
 const tweetController = require('../controllers/tweetController')
 const replyController = require('../controllers/replyController')
-// const chatController = require('../controllers/chatController')
+const chatController = require('../controllers/chatController')
 const { authenticated, authenticatedAdmin, authenticatedNotAdmin } = require('../middleware/auth')
 const { cpUpload } = require('../middleware/functions')
 
@@ -42,5 +42,5 @@ module.exports = app => {
   app.post('/api/tweets/:tweetId/unlike', authenticated, tweetController.unlikeTweet)
 
   // chats
-  // app.get('/api/chats/public-room/', authenticated, chatController.getHistoryMessage)
+  app.get('/api/chats/public-messages', authenticated, chatController.getHistoryMessage)
 }
