@@ -10,7 +10,7 @@ let chatController = {
         include: { model: User, attributes: ['id', 'name', 'avatar', 'account'] },
         raw: true,
         nest: true,
-        order: [['createdAt', 'DESC']]
+        order: [['createdAt', 'ASC']]
       })
       if (!historyMessage) throw new Error("this historyMessage doesn't exist")
       historyMessage = historyMessage.map(data => {
