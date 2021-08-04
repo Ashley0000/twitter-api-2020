@@ -8,7 +8,7 @@ const addFormats = require('ajv-formats')
 const ajv = new Ajv({ allErrors: true }) // 顯示超過一個以上的 errors
 addFormats(ajv)
 require('ajv-errors')(ajv)
-const validateUserInfo = require('../validateUserInfo')
+const validateUserInfo = require('../middleware/validateUserInfo')
 const validate = ajv.compile(validateUserInfo.schema)
 
 // JWT
