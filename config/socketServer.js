@@ -31,7 +31,7 @@ module.exports = httpServer => {
 
     socket.on('publicChat', async msg => {
       Message.create({ UserId: id, chatRoomId: '5', message: msg })
-      io.emit('publicChat', msg)
+      io.emit('publicChat', msg, socket.handshake.user)
     })
 
     socket.on('leavePublic', () => {
