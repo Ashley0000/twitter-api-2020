@@ -1,6 +1,5 @@
 const { Message } = require('../models')
 const { socketAuthenticated } = require('../middleware/auth')
-// const chatController = require('../controllers/chatController')
 
 const onlineUsers = []
 
@@ -26,7 +25,7 @@ module.exports = httpServer => {
         onlineUsers.push(user)
       }
 
-      socket.broadcast.emit('joinRoom', `${name} 上線`)
+      socket.broadcast.emit('joinRoom', `${name}`)
       io.emit('totalUser', onlineUsers)
     })
 
@@ -40,7 +39,7 @@ module.exports = httpServer => {
       onlineUsers.splice(userIdIndex, 1)
 
       io.emit('totalUser', onlineUsers)
-      socket.broadcast.emit('leaveRoom', `${name} 離線`)
+      socket.broadcast.emit('leaveRoom', `${name}`)
     })
   })
 }
