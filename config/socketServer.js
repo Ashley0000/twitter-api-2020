@@ -4,7 +4,7 @@ const { socketAuthenticated } = require('../middleware/auth')
 
 const onlineUsers = []
 
-module.exports = (httpServer) => {
+module.exports = httpServer => {
   const io = require('socket.io')(httpServer, {
     cors: {
       origin: '*',
@@ -21,7 +21,7 @@ module.exports = (httpServer) => {
     const { name, id } = user
 
     socket.on('joinPublic', () => {
-      const findUserId = onlineUsers.map((d) => d.id).includes(id)
+      const findUserId = onlineUsers.map(d => d.id).includes(id)
       if (findUserId === false) {
         onlineUsers.push(user)
       }
@@ -30,17 +30,17 @@ module.exports = (httpServer) => {
       io.emit('totalUser', onlineUsers)
     })
 
-    socket.on('publicChat', async (msg) => {
+    socket.on('publicChat', async msg => {
       Message.create({ UserId: id, chatRoomId: '5', message: msg })
       io.emit('publicChat', msg)
     })
 
-    socket.on('leavePublic', async () => {
-      const userIdIndex = onlineUsers.map((d) => d.id).indexOf(id)
+    socket.on('leavePublic', () => {
+      const userIdIndex = onlineUsers.map(d => { return d.id }).indexOf(id)
       onlineUsers.splice(userIdIndex, 1)
 
-      await io.emit('totalUser', onlineUsers)
-      await socket.broadcast.emit('leaveRoom', `${name} 離線`)
+      io.emit('totalUser', onlineUsers)
+      socket.broadcast.emit('leaveRoom', `${name} 離線`)
     })
   })
 }
