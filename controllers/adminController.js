@@ -95,9 +95,12 @@ let adminController = {
 
   deleteTweets: async (req, res, next) => {
     try {
-      const tweet = await Tweet.findByPk(req.params.tweetId)
-      if (!tweet) throw new Error("this tweet doesn't exist")
-      await tweet.destroy()
+      await Promise.all([
+        Tweet.destroy({ where: { id: req.params.tweetId } }),
+        Reply.destroy({ where: { TweetId: req.params.tweetId } }),
+        Like.destroy({ where: { TweetId: req.params.tweetId } })
+      ])
+
       return res.json({ status: 'success', message: 'Successfully delete this tweet' })
     } catch (error) {
       next(error)
